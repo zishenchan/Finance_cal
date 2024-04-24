@@ -1,46 +1,61 @@
-import tkinter as tk  # package import
+import tkinter as tk
 
+def calculate_direct_method():
+    # Retrieve user inputs
+    principal = float(initial_deposit_entry.get())
+    years = int(years_to_compound_entry.get())
+    annual_rate = float(annual_return_rate_entry.get()) / 100
 
+    # Direct method formula
+    result = principal * (1 + annual_rate) ** years
+
+    # Display the result
+    result_label.config(text=f"Result: ${result:,.2f}")
+
+def clear_fields():
+    # Clear all entries and labels /Users/samchan/Project01/GPT.py
+    initial_deposit_entry.delete(0, tk.END)
+    years_to_compound_entry.delete(0, tk.END)
+    annual_return_rate_entry.delete(0, tk.END)
+    result_label.config(text="")
+
+def quit_app():
+    root.destroy()
+
+# Create the main window
 root = tk.Tk()
+root.title("Interest Calculation Tool")
 
-root.geometry("800x500")  # the size
-root.title("Compound Calculator")  # the name
+# Set a larger window size, approximately 1.5x the default
+root.geometry("450x300")
 
-label = tk.Label(root,text = "COMPOUND TO GET RICH",font = ("arial",18))  # the front character
-label.pack(padx=20,pady=20)
+# Create and grid the widgets, all centered
+frame = tk.Frame(root)
+frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
-textbox  = tk.Text(root,height =10, font=("arial",16)) # dark background size
-textbox.pack(padx=10)
+tk.Label(frame, text="Initial Deposit:").grid(row=0, column=0)
+initial_deposit_entry = tk.Entry(frame)
+initial_deposit_entry.grid(row=0, column=1)
 
-button = tk.Button(root,text = "Calculate Now",font  = ("arial",18))  # the button
-button.pack(padx=10, pady=10)
+tk.Label(frame, text="Years to Compound:").grid(row=1, column=0)
+years_to_compound_entry = tk.Entry(frame)
+years_to_compound_entry.grid(row=1, column=1)
 
-buttonframe = tk.Frame(root)
-buttonframe.columnconfigure(0,weight=1)  # do with 3 columns
-buttonframe.columnconfigure(1,weight=1)
-buttonframe.columnconfigure(2,weight=1)
+tk.Label(frame, text="Annual Return Rate (%):").grid(row=2, column=0)
+annual_return_rate_entry = tk.Entry(frame)
+annual_return_rate_entry.grid(row=2, column=1)
 
-# for multiple buttons, and frame
+calculate_button = tk.Button(frame, text="Calculate Result", command=calculate_direct_method)
+calculate_button.grid(row=3, column=0, columnspan=2)
 
-btn1 = tk.Button(buttonframe, text="1",font=("arial",18))
-btn1.grid(row=0,column=0,sticky=tk.W+tk.E)  # row and column
+clear_button = tk.Button(frame, text="Clear", command=clear_fields)
+clear_button.grid(row=4, column=0, columnspan=2)
 
-btn2 = tk.Button(buttonframe, text="2",font=("arial",18))
-btn2.grid(row=0,column=1,sticky=tk.W+tk.E)
+quit_button = tk.Button(frame, text="Quit", command=quit_app)
+quit_button.grid(row=5, column=0, columnspan=2)
 
-btn3 = tk.Button(buttonframe, text="3",font=("arial",18))
-btn3.grid(row=0,column=2,sticky=tk.W+tk.E)
+result_label = tk.Label(frame, text="")
+result_label.grid(row=6, column=0, columnspan=2)
 
-btn4 = tk.Button(buttonframe, text="4",font=("arial",18))
-btn4.grid(row=1,column=0,sticky=tk.W+tk.E)
-
-btn5 = tk.Button(buttonframe, text="5",font=("arial",18))
-btn5.grid(row=1,column=1,sticky=tk.W+tk.E)
-
-btn6 = tk.Button(buttonframe, text="6",font=("arial",18))
-btn6.grid(row=1,column=2,sticky=tk.W+tk.E)
-
-buttonframe.pack(fill="x")
-
-
-root.mainloop()  # basic windows in python
+# Start the main event loop
+root.mainloop()
